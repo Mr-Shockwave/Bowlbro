@@ -40,11 +40,20 @@ export default function CheckoutPage() {
             {lines.map(({ item, quantity }) => (
               <li key={item.id} className="flex items-center gap-4 py-4">
                 <div
-                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${item.gradient}`}
+                  className={`relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br ${item.gradient}`}
                 >
-                  <span className="text-2xl" aria-hidden>
-                    {item.emoji}
-                  </span>
+                  {item.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- small thumbnail
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-2xl" aria-hidden>
+                      {item.emoji}
+                    </span>
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-zinc-900">{item.name}</p>

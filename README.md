@@ -70,6 +70,12 @@ allowedDevOrigins: ["<your-lan-ip>"],
 then restart `npm run dev` and open `http://<your-lan-ip>:3000` from the
 other device.
 
+## Image credits
+
+Dish photos under `public/dishes/` are sourced from
+[Wikimedia Commons](https://commons.wikimedia.org/) under their respective
+free licenses (demo use).
+
 ## Project layout
 
 ```

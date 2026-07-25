@@ -73,9 +73,9 @@ export default function DishPhoto({ item }: { item: MenuItem }) {
       <div
         className={`relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br ${item.gradient}`}
       >
-        {photo ? (
+        {photo || item.image ? (
           <Image
-            src={photo}
+            src={photo ?? item.image!}
             alt={item.name}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
