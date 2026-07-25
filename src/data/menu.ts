@@ -97,7 +97,7 @@ export const MENU_ITEMS: MenuItem[] = [
     cuisine: "Asian",
     emoji: "🥟",
     gradient: "from-amber-200 to-orange-300",
-    image: "/dishes/potstickers.jpg",
+    image: "/dishes/potstickers-2.jpg",
   },
   {
     id: "app-3",
@@ -266,7 +266,7 @@ export const MENU_ITEMS: MenuItem[] = [
     cuisine: "Asian",
     emoji: "🌼",
     gradient: "from-yellow-200 to-lime-300",
-    image: "/dishes/chrysanthemum-tea.jpg",
+    image: "/dishes/chrysanthemum-tea-2.jpg",
     vegetarian: true,
   },
   {
