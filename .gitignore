@@ -43,3 +43,6 @@ next-env.d.ts
 # local test images (Claude verification artifacts)
 /public/test-dish.png
 /public/dish-test.jpg
+
+# vendor-published menu (runtime data)
+/data/vendor-menu.json

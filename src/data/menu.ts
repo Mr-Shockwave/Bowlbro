@@ -13,7 +13,18 @@ export interface MenuItem {
   vegetarian?: boolean;
   spicy?: boolean;
   featured?: boolean;
+  /** Vendor-provided one-sentence intro (required on vendor dishes). */
+  tagline?: string;
+  /** Vendor-declared allergens; ["None"] means explicitly allergen-free. */
+  allergens?: string[];
 }
+
+export const CUISINE_GRADIENTS: Record<Cuisine, string> = {
+  Asian: "from-amber-200 to-orange-300",
+  American: "from-orange-200 to-red-300",
+  Mexican: "from-lime-200 to-green-300",
+  Italian: "from-rose-200 to-red-300",
+};
 
 export const CATEGORIES: Category[] = [
   "Appetizers",

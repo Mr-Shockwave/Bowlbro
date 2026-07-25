@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import {
   CATEGORIES,
   CUISINES,
   CUISINE_EMOJI,
+  CUISINE_GRADIENTS,
   MENU_ITEMS,
   type Category,
   type Cuisine,
+  type MenuItem,
 } from "@/data/menu";
+import type { VendorDish } from "@/data/vendor";
 
 type CategoryFilter = Category | "All";
 type CuisineFilter = Cuisine | "All";
@@ -17,8 +20,25 @@ type CuisineFilter = Cuisine | "All";
 export default function MenuPage() {
   const [category, setCategory] = useState<CategoryFilter>("All");
   const [cuisine, setCuisine] = useState<CuisineFilter>("All");
+  const [vendorItems, setVendorItems] = useState<MenuItem[]>([]);
 
-  const items = MENU_ITEMS.filter(
+  useEffect(() => {
+    fetch("/api/vendor/menu")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!Array.isArray(data.dishes)) return;
+        setVendorItems(
+          data.dishes.map((d: VendorDish) => ({
+            ...d,
+            gradient: CUISINE_GRADIENTS[d.cuisine],
+          }))
+        );
+      })
+      .catch(() => {});
+  }, []);
+
+  const allItems = [...MENU_ITEMS, ...vendorItems];
+  const items = allItems.filter(
     (item) =>
       (category === "All" || item.category === category) &&
       (cuisine === "All" || item.cuisine === cuisine)
@@ -33,7 +53,7 @@ export default function MenuPage() {
     <div>
       <h1 className="text-3xl font-bold text-zinc-900">Menu</h1>
       <p className="mt-1 text-zinc-500">
-        {MENU_ITEMS.length} dishes, made fresh when you order.
+        {allItems.length} dishes, made fresh when you order.
       </p>
 
       <div

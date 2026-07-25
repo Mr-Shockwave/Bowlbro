@@ -17,9 +17,17 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
             {formatPrice(item.price)}
           </span>
         </div>
+        {item.tagline && (
+          <p className="text-sm italic text-orange-700">“{item.tagline}”</p>
+        )}
         <p className="flex-1 text-sm leading-relaxed text-zinc-500">
           {item.description}
         </p>
+        {item.allergens && !item.allergens.includes("None") && (
+          <p className="text-xs text-zinc-400">
+            Contains: {item.allergens.join(", ")}
+          </p>
+        )}
         <div className="flex items-center justify-between pt-1">
           <div className="flex gap-1">
             <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">
