@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CATEGORIES, CUISINES, type Category, type Cuisine } from "@/data/menu";
 import { ALLERGENS, type VendorDish } from "@/data/vendor";
@@ -16,7 +15,11 @@ function emptyRequired(d: Draft): string[] {
   return missing;
 }
 
-export default function VendorPage() {
+export default function VendorPortal({
+  onPublished,
+}: {
+  onPublished?: () => void;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -139,6 +142,7 @@ export default function VendorPage() {
         return;
       }
       setPublished(data.count);
+      onPublished?.();
     } catch {
       setPublishError("Publish failed. Check your connection and try again.");
     } finally {
@@ -150,14 +154,8 @@ export default function VendorPage() {
     "w-full rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="text-3xl font-bold text-zinc-900">Restaurant Portal</h1>
-      <p className="mt-1 text-zinc-500">
-        Photograph your paper menu, let AI turn it into an e-menu, complete the
-        required details, and publish.
-      </p>
-
-      <section className="mt-6 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">
+    <div>
+      <section className="mt-2 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">
         <h2 className="font-bold text-zinc-900">
           <span aria-hidden>📸</span> Step 1 — Scan your menu
         </h2>
@@ -398,10 +396,8 @@ export default function VendorPage() {
             )}
             {published !== null && (
               <p className="mt-2 rounded-xl bg-green-50 p-2 text-sm text-green-700">
-                Published {published} {published === 1 ? "dish" : "dishes"}!{" "}
-                <Link href="/menu" className="font-semibold underline">
-                  View the customer menu →
-                </Link>
+                Published {published} {published === 1 ? "dish" : "dishes"} —
+                they&apos;re live in the menu above. ↑
               </p>
             )}
           </div>

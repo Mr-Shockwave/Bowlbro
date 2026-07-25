@@ -37,12 +37,6 @@ export default function Header() {
           >
             <span aria-hidden>🥘</span> Build Your Own
           </Link>
-          <Link
-            href="/vendor"
-            className="text-sm font-medium text-zinc-400 transition-colors hover:text-orange-600"
-          >
-            <span aria-hidden>🏪</span> Vendor
-          </Link>
           <button
             type="button"
             onClick={openDrawer}

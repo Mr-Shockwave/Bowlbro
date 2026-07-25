@@ -17,7 +17,7 @@ powered by the OpenAI API.
   checklist, AI suggests the 3 most popular ways to cook them, with optional
   AI-generated preview images; chosen dishes go into the cart
 
-**Vendor side** (`/vendor`)
+**Vendor side** (bottom of `/menu` — "Restaurant owner? → Upload your menu")
 - Photograph a paper menu → AI extracts every dish into an editable e-menu
 - Required per-dish parameters: one-sentence intro and allergen declarations
   (used on customer-facing cards and intended for future recommendations)

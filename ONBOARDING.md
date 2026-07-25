@@ -33,9 +33,9 @@ The full README covers features and project layout.
 - `/calculator` — upload a food photo → AI calorie estimate
 - `/build-your-own` — tick ingredients → AI suggests 3 dishes → optional
   AI-generated preview image → add to cart
-- `/vendor` — restaurant portal: photograph a paper menu → AI extracts dishes →
-  fill required fields (one-sentence intro, allergens) → publish → dishes
-  appear in `/menu`
+- Vendor tools — at the bottom of `/menu` ("Restaurant owner? → Upload your
+  menu"): photograph a paper menu → AI extracts dishes → fill required fields
+  (one-sentence intro, allergens) → publish → dishes appear in the menu above
 - Checkout is a mock (no payments); orders live in sessionStorage.
 
 ## 3. Gotchas that cost us time (so they don't cost you)

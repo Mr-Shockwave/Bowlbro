@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
+import VendorPortal from "@/components/VendorPortal";
 import {
   CATEGORIES,
   CUISINES,
@@ -21,8 +22,9 @@ export default function MenuPage() {
   const [category, setCategory] = useState<CategoryFilter>("All");
   const [cuisine, setCuisine] = useState<CuisineFilter>("All");
   const [vendorItems, setVendorItems] = useState<MenuItem[]>([]);
+  const [vendorOpen, setVendorOpen] = useState(false);
 
-  useEffect(() => {
+  const loadVendorItems = useCallback(() => {
     fetch("/api/vendor/menu")
       .then((r) => r.json())
       .then((data) => {
@@ -36,6 +38,8 @@ export default function MenuPage() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(loadVendorItems, [loadVendorItems]);
 
   const allItems = [...MENU_ITEMS, ...vendorItems];
   const items = allItems.filter(
@@ -127,6 +131,33 @@ export default function MenuPage() {
           </section>
         ))
       )}
+
+      <section className="mt-16 border-t border-zinc-200 pt-8">
+        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+          <div>
+            <h2 className="text-xl font-bold text-zinc-900">
+              <span aria-hidden>🏪</span> Restaurant owner?
+            </h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              Photograph your paper menu, let AI turn it into an e-menu,
+              complete the required details, and publish it right here.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setVendorOpen((v) => !v)}
+            className="shrink-0 rounded-full border border-orange-600 px-5 py-2 text-sm font-semibold text-orange-600 transition-colors hover:bg-orange-50"
+            data-testid="vendor-toggle"
+          >
+            {vendorOpen ? "Hide vendor tools" : "Upload your menu"}
+          </button>
+        </div>
+        {vendorOpen && (
+          <div className="mt-4">
+            <VendorPortal onPublished={loadVendorItems} />
+          </div>
+        )}
+      </section>
     </div>
   );
 }
