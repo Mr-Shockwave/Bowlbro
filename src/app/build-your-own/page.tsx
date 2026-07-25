@@ -32,6 +32,9 @@ export default function BuildYourOwnPage() {
   const [error, setError] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null);
   const [addedName, setAddedName] = useState<string | null>(null);
+  const [images, setImages] = useState<Record<string, string>>({});
+  const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
+  const [imageErrors, setImageErrors] = useState<Record<string, string>>({});
 
   function toggle(ingredient: string) {
     setSelected((prev) => {
@@ -62,10 +65,40 @@ export default function BuildYourOwnPage() {
         return;
       }
       setSuggestions(data.suggestions);
+      setImages({});
+      setImageErrors({});
     } catch {
       setError("Recommendation failed. Check your connection and try again.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function visualize(s: Suggestion) {
+    setImageLoading((prev) => ({ ...prev, [s.name]: true }));
+    setImageErrors((prev) => ({ ...prev, [s.name]: "" }));
+    try {
+      const res = await fetch("/api/dish-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: s.name, description: s.description }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setImageErrors((prev) => ({
+          ...prev,
+          [s.name]: data.error ?? "Image generation failed.",
+        }));
+        return;
+      }
+      setImages((prev) => ({ ...prev, [s.name]: data.image }));
+    } catch {
+      setImageErrors((prev) => ({
+        ...prev,
+        [s.name]: "Image generation failed. Try again.",
+      }));
+    } finally {
+      setImageLoading((prev) => ({ ...prev, [s.name]: false }));
     }
   }
 
@@ -158,15 +191,42 @@ export default function BuildYourOwnPage() {
               className="flex flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm"
             >
               <div
-                className={`flex h-28 items-center justify-center bg-gradient-to-br ${
+                className={`relative flex h-40 items-center justify-center overflow-hidden bg-gradient-to-br ${
                   CUISINE_GRADIENT[s.cuisine] ?? "from-amber-200 to-orange-300"
                 }`}
               >
-                <span className="text-5xl drop-shadow-sm" aria-hidden>
-                  {s.emoji}
-                </span>
+                {images[s.name] ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- base64 data URL from image generation
+                  <img
+                    src={images[s.name]}
+                    alt={`AI impression of ${s.name}`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : imageLoading[s.name] ? (
+                  <span className="animate-pulse text-sm font-medium text-zinc-600">
+                    Cooking up a preview…
+                  </span>
+                ) : (
+                  <>
+                    <span className="text-5xl drop-shadow-sm" aria-hidden>
+                      {s.emoji}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => visualize(s)}
+                      className="absolute bottom-2 right-2 rounded-full bg-zinc-900/75 px-3 py-1.5 text-xs font-semibold text-white shadow-md backdrop-blur transition-colors hover:bg-zinc-900"
+                    >
+                      ✨ See how it looks
+                    </button>
+                  </>
+                )}
               </div>
               <div className="flex flex-1 flex-col gap-2 p-4">
+                {imageErrors[s.name] && (
+                  <p className="rounded-lg bg-red-50 p-2 text-xs text-red-700">
+                    {imageErrors[s.name]}
+                  </p>
+                )}
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-zinc-900">{s.name}</h3>
                   <span className="shrink-0 font-semibold text-orange-600">
