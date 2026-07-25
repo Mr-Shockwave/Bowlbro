@@ -45,6 +45,34 @@ export const CUISINE_EMOJI: Record<Cuisine, string> = {
 };
 
 export const MENU_ITEMS: MenuItem[] = [
+  // Signature dishes — kept first so they lead the menu
+  {
+    id: "main-1",
+    name: "水煮鱼 Sichuan Boiled Fish",
+    description:
+      "Tender fish fillets poached in fiery chili-and-Sichuan-peppercorn broth over bean sprouts.",
+    price: 22.95,
+    category: "Mains",
+    cuisine: "Asian",
+    emoji: "🐟",
+    gradient: "from-red-300 to-rose-400",
+    image: "/dishes/shuizhuyu.jpg",
+    spicy: true,
+    featured: true,
+  },
+  {
+    id: "main-2",
+    name: "清蒸鱼 Steamed Whole Fish",
+    description:
+      "Whole fish steamed Cantonese-style with ginger, scallion, and light soy — delicate and fresh.",
+    price: 24.95,
+    category: "Mains",
+    cuisine: "Asian",
+    emoji: "🐠",
+    gradient: "from-teal-200 to-cyan-300",
+    image: "/dishes/qingzhengyu.jpeg",
+    featured: true,
+  },
   // Appetizers
   {
     id: "app-1",
@@ -99,32 +127,6 @@ export const MENU_ITEMS: MenuItem[] = [
     spicy: true,
   },
   // Mains
-  {
-    id: "main-1",
-    name: "水煮鱼 Sichuan Boiled Fish",
-    description:
-      "Tender fish fillets poached in fiery chili-and-Sichuan-peppercorn broth over bean sprouts.",
-    price: 22.95,
-    category: "Mains",
-    cuisine: "Asian",
-    emoji: "🐟",
-    gradient: "from-red-300 to-rose-400",
-    image: "/dishes/shuizhuyu.jpg",
-    spicy: true,
-    featured: true,
-  },
-  {
-    id: "main-2",
-    name: "清蒸鱼 Steamed Whole Fish",
-    description:
-      "Whole fish steamed Cantonese-style with ginger, scallion, and light soy — delicate and fresh.",
-    price: 24.95,
-    category: "Mains",
-    cuisine: "Asian",
-    emoji: "🐠",
-    gradient: "from-teal-200 to-cyan-300",
-    image: "/dishes/steamed-fish.jpg",
-  },
   {
     id: "main-3",
     name: "左宗棠鸡 General Tso's Chicken",
